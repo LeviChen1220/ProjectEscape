@@ -9,6 +9,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameFramework/PlayerController.h"
 #include "AbilitySystem/EscapeAttributeSet.h"
+#include "EscapeFunctionLibrary.h"
 
 #include "EscapeGameplayTags.h"
 #include "EscapeDebugHelper.h"
@@ -137,12 +138,16 @@ void AEscapeSurvivorWeapon::FireWeapon()
         if (bHit)
         {
             AActor* HitActor = HitResult.GetActor();
-            if (HitActor && HitActor != GetOwner())
+            APawn* OwnerPawn = Cast<APawn>(GetOwner());
+            APawn* HitPawn = Cast<APawn>(HitActor);
+
+            if (UEscapeFunctionLibrary::IsTargetPawnHostile(OwnerPawn, HitPawn))
             {
-
-                // OnWeaponHitTarget.ExecuteIfBound(HitActor);
-                ApplyRangedDamage(HitActor);
-
+                if (HitActor && HitActor != GetOwner())
+                {
+                    // OnWeaponHitTarget.ExecuteIfBound(HitActor);
+                    ApplyRangedDamage(HitActor);
+                }
                 // Play impact effect
                 //PlayImpactEffect(HitResult);
             }

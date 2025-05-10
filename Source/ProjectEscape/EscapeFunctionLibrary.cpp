@@ -71,16 +71,16 @@ UPawnCombatComponent* UEscapeFunctionLibrary::BP_GetPawnCombatComponentFromActor
 
 bool UEscapeFunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn)
 {
-	check(QueryPawn && TargetPawn);
-
-	IGenericTeamAgentInterface* QueryTeamAgent = Cast<IGenericTeamAgentInterface>(QueryPawn->GetController());
-	IGenericTeamAgentInterface* TargetTeamAgent = Cast<IGenericTeamAgentInterface>(TargetPawn->GetController());
-
-	if (QueryTeamAgent && TargetTeamAgent)
+	if (QueryPawn && TargetPawn)
 	{
-		return QueryTeamAgent->GetGenericTeamId() != TargetTeamAgent->GetGenericTeamId();
-	}
+		IGenericTeamAgentInterface* QueryTeamAgent = Cast<IGenericTeamAgentInterface>(QueryPawn->GetController());
+		IGenericTeamAgentInterface* TargetTeamAgent = Cast<IGenericTeamAgentInterface>(TargetPawn->GetController());
 
+		if (QueryTeamAgent && TargetTeamAgent)
+		{
+			return QueryTeamAgent->GetGenericTeamId() != TargetTeamAgent->GetGenericTeamId();
+		}
+	}
 	return false;
 }
 
